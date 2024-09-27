@@ -1,6 +1,6 @@
 {
   "name": "stupidwebauthn-client",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "type": "module",
   "main": "./dist/index.js",
   "files": [
@@ -8,6 +8,7 @@
     "dist/*.js",
     "src/*.ts"
   ],
+  "types": "dist/index.d.ts",
   "license": "MIT",
   "scripts": {
     "prepublishOnly": "yarn run build",
