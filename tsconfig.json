@@ -17,6 +17,7 @@
     "module": "NodeNext",
     "outDir": "dist",
     // Emit type declarations
+    "declaration": true,
     // Include the DOM types
     "lib": ["es2022", "dom", "dom.iterable"]
   },
