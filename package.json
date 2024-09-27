@@ -1,6 +1,6 @@
 {
   "name": "stupidwebauthn-client",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "type": "module",
   "main": "./dist/index.js",
   "files": [
@@ -18,5 +18,17 @@
   },
   "devDependencies": {
     "typescript": "^5.6.2"
+  },
+  "author": "lil5",
+  "contributors": [
+    "lil5 <li@last.nl>"
+  ],
+  "bugs": {
+    "url": "https://github.com/stupidwebauthn/client/issues"
+  },
+  "homepage": "https://github.com/stupidwebauthn/client#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stupidwebauthn/client"
   }
 }
