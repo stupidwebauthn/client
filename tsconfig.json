@@ -17,19 +17,10 @@
     "module": "NodeNext",
     "outDir": "dist",
     // Emit type declarations
-    "declaration": true,
     // Include the DOM types
-    "lib": [
-      "es2022",
-      "dom",
-      "dom.iterable"
-    ]
+    "lib": ["es2022", "dom", "dom.iterable"]
   },
   // Include the necessary files for your project
-  "include": [
-    "src",
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["src"],
+  "exclude": ["node_modules"]
 }

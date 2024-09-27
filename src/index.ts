@@ -1,9 +1,9 @@
-import { client } from "@passwordless-id/webauthn";
+import * as client from "@passwordless-id/webauthn/dist/esm/client.js";
 import type {
   AuthenticationJSON,
   CredentialInfo,
   RegistrationJSON,
-} from "@passwordless-id/webauthn/dist/esm/types.js";
+} from "@passwordless-id/webauthn/dist/esm/types.d.ts";
 
 export interface CredentialSelect {
   id: number;
