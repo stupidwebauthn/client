@@ -5,14 +5,14 @@ import type {
   RegistrationJSON,
 } from "@passwordless-id/webauthn/dist/esm/types.d.ts";
 
-export interface CredentialSelect {
-  id: number;
-  name: string;
-  credential: CredentialInfo;
-}
 export interface Login1ChallengeResponse {
   challenge: string;
-  credentials: CredentialSelect[];
+  credentials: CredentialInfo[];
+}
+
+export interface Register3PasskeyChallengeResponse {
+  challenge: string;
+  email: string;
 }
 
 export default class PasskeyFdClient {
@@ -29,15 +29,15 @@ export default class PasskeyFdClient {
   public Register3PasskeyChallenge() {
     return fetch(`/auth/register/passkey/challenge`, {
       method: "POST",
-    }).then(FetchThen<{ challenge: string }>);
+    }).then(FetchThen<Register3PasskeyChallengeResponse>);
   }
-  public Register4AuthorizePasskey(challenge: string) {
-    return client.register({ challenge, user: window.location.hostname });
+  public Register4AuthorizePasskey(o: Register3PasskeyChallengeResponse) {
+    return client.register({ challenge: o.challenge, user: { name: o.email } });
   }
-  public Register5PasskeyValidate(reqBody: RegistrationJSON) {
+  public Register5PasskeyValidate(o: RegistrationJSON) {
     return fetch(`/auth/register/passkey/validate`, {
       method: "POST",
-      body: JSON.stringify(reqBody),
+      body: JSON.stringify(o),
     }).then(FetchThenEmpty);
   }
 
@@ -48,17 +48,17 @@ export default class PasskeyFdClient {
     }).then(FetchThen<Login1ChallengeResponse>);
   }
   // authenticate a credential
-  public Login2Authenticate(challenge: string, credential: CredentialInfo) {
+  public Login2Authenticate(o: Login1ChallengeResponse) {
     return client.authenticate({
-      challenge,
-      allowCredentials: [credential],
+      challenge: o.challenge,
+      allowCredentials: o.credentials,
       timeout: 60000,
     });
   }
-  public Login3Validate(reqBody: AuthenticationJSON, cred_id: number) {
-    return fetch(`/auth/login/validate?cred_id=${cred_id}`, {
+  public Login3Validate(o: AuthenticationJSON) {
+    return fetch("/auth/login/validate", {
       method: "POST",
-      body: JSON.stringify(reqBody),
+      body: JSON.stringify(o),
     }).then(FetchThenEmpty);
   }
 
