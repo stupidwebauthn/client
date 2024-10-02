@@ -15,6 +15,18 @@ export interface Register3PasskeyChallengeResponse {
   email: string;
 }
 
+export interface UserJson {
+  id: number;
+  email: string;
+  jwt_version: number;
+  gdpr_delete_at: string | null;
+  created_at: string | null;
+}
+export interface GdprData {
+  user: UserJson;
+  credentials: CredentialInfo[];
+}
+
 export default class PasskeyFdClient {
   public Register1EmailChallenge(email: string) {
     return fetch(`/auth/register/email/challenge?email=${email}`, {
@@ -62,14 +74,30 @@ export default class PasskeyFdClient {
     }).then(FetchThenEmpty);
   }
 
+  public Logout() {
+    return fetch(`/auth/logout`, { method: "GET" }).then(FetchThenEmpty);
+  }
+
   public AuthValidate() {
-    return fetch(`/auth/auth/validate`, { method: "POST" }).then(
-      FetchThenEmpty
+    return fetch(`/auth/auth/validate`, { method: "GET" }).then(
+      FetchThen<UserJson>
     );
   }
 
-  public Logout() {
-    return fetch(`/auth/logout`, { method: "GET" }).then(FetchThenEmpty);
+  public GdprData() {
+    return fetch(`/auth/auth/gdpr/data`, { method: "GET" }).then(
+      FetchThen<GdprData>
+    );
+  }
+  public GdprDeleteSet() {
+    return fetch(`/auth/auth/gdpr/delete-set`, { method: "POST" }).then(
+      FetchThen<UserJson>
+    );
+  }
+  public GdprDeleteUnset() {
+    return fetch(`/auth/auth/gdpr/delete-unset`, { method: "POST" }).then(
+      FetchThen<UserJson>
+    );
   }
 }
 
