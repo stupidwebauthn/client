@@ -35,16 +35,17 @@ const params = queryString.parse(location.search) as { c?: string };
 // check if step 3
 if (!params.c) throw "Invalid email verification url provided";
 // validating email
-await client.Register2EmailValidate(params.c);
+await client.Register2EmailVerify(params.c);
 // email registered successfully
+// creates an `swa_auth` cookie
 ```
 
 ### Register passkey
 
 ```ts
 const res1 = await client.Register3PasskeyChallenge();
-const res2 = await client.Register4AuthorizePasskey(res1.challenge);
-await client.Register5PasskeyValidate(res2);
+const res2 = await client.Register4PasskeyRegister(res1);
+await client.Register5PasskeyVerify(res2);
 // passkey authenticated
 ```
 
@@ -60,32 +61,16 @@ On form submission:
 
 ```ts
 const email = e.target.email.value;
-const res = await client.Login1Challenge(email);
-// save these elsewhere
-const challenge: string = res.challenge;
-// list the credentials for the user to select
-const credentials: CredentialSelect[] = res.credentials;
-```
-
-```jsx
-<select>
-  {credentials.map((credential) => (
-    <option key={credential.id} value={credential.id}>
-      {credential.name}
-    </option>
-  ))}
-</select>
-```
-
-On credential selection:
-
-```ts
-const res = await client.Login2Authenticate(challenge.challenge, credentials);
-await client.Login3Validate(res, credential.challenge.id);
+const res1 = await client.Login1Challenge(email);
+const res2 = await client.Login2Authenticate(res1);
+await client.Login3Verify(res2);
 // authenticated
+// creates an `swa_auth` cookie
 ```
 
 ### Authentication
+
+Check if the `swa_auth` cookie is valid
 
 ```ts
 client
@@ -96,6 +81,17 @@ client
   .catch((err) => {
     // navigate back to the login page
   });
+```
+
+### Double Validation
+
+```ts
+// assuming that the client is authenticated
+const res1 = await client.AuthDoubleCheck1Challenge();
+const res2 = await client.AuthDoubleCheck2Authenticate(res1);
+await client.AuthDoubleCheckVerify(res2);
+// creates an `swa_doublecheck_auth` cookie that is valid for a minute
+// Now make a request to your server which requires an extra check to validate
 ```
 
 ### Logout
