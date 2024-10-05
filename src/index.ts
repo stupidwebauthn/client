@@ -141,6 +141,11 @@ export default class PasskeyFdClient {
       method: "POST",
     }).then(FetchThen<UserJson>);
   }
+  public AuthPanic() {
+    return fetch(`/auth/auth/doublecheck/panic`, {
+      method: "PUT",
+    }).then(FetchThenEmpty);
+  }
 }
 
 function FetchThenEmpty(res: Response): void {
