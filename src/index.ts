@@ -146,6 +146,12 @@ export default class PasskeyFdClient {
       method: "PUT",
     }).then(FetchThenEmpty);
   }
+  public AuthDeletePasskey3(o: AuthenticationJSON) {
+    return fetch(`/auth/auth/doublecheck/verify`, {
+      method: "DELETE",
+      body: JSON.stringify(o),
+    }).then(FetchThenEmpty);
+  }
 }
 
 function FetchThenEmpty(res: Response): void {
