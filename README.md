@@ -83,6 +83,15 @@ client
   });
 ```
 
+### Authentication with csrf blocking
+
+```ts
+await client.AuthCsrfChallenge();
+
+// Or any api call that uses the csrf validate middleware
+await client.AuthCsrfValidate();
+```
+
 ### Double Validation
 
 ```ts

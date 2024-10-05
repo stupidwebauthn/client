@@ -109,6 +109,17 @@ export default class PasskeyFdClient {
     return fetch(`/auth/logout`, { method: "GET" }).then(FetchThenEmpty);
   }
 
+  public AuthCsrfChallenge() {
+    return fetch(`/auth/auth/csrf/challenge`, { method: "GET" }).then(
+      FetchThenEmpty
+    );
+  }
+  public AuthCsrfValidate() {
+    return fetch(`/auth/auth/csrf/validate`, { method: "GET" }).then(
+      FetchThen<UserJson>
+    );
+  }
+
   public AuthValidate() {
     return fetch(`/auth/auth/validate`, { method: "GET" }).then(
       FetchThen<UserJson>
