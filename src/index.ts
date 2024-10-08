@@ -38,6 +38,11 @@ export default class PasskeyFdClient {
       method: "GET",
     }).then(FetchThenEmpty);
   }
+  public Register3NoPasskeyLogin() {
+    return fetch(`/auth/register/email/no-passkey-login`, {
+      method: "POST",
+    }).then(FetchThenEmpty);
+  }
   public Register3PasskeyChallenge() {
     return fetch(`/auth/register/passkey/challenge`, {
       method: "POST",
@@ -68,7 +73,7 @@ export default class PasskeyFdClient {
   public Login2Authenticate(o: Login1ChallengeResponse) {
     return client.authenticate({
       challenge: o.challenge,
-      allowCredentials: o.credentials,
+      allowCredentials: o.credentials.map((c) => c.id),
       timeout: 60000,
     });
   }
@@ -94,7 +99,7 @@ export default class PasskeyFdClient {
   public AuthDoubleCheck2Authenticate(o: Login1ChallengeResponse) {
     return client.authenticate({
       challenge: o.challenge,
-      allowCredentials: o.credentials,
+      allowCredentials: o.credentials.map((c) => c.id),
       timeout: 60000,
     });
   }
