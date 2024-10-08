@@ -8,6 +8,8 @@ yarn add stupidwebauthn-client
 
 ## Code instructions
 
+Add this as a global constant, available for use in any of your frontend's components.
+
 ```ts
 const client = new StupidWebauthnClient();
 ```
@@ -32,7 +34,7 @@ Run on opening at the validation link:
 import queryString from "query-string";
 
 const params = queryString.parse(location.search) as { c?: string };
-// check if step 3
+// check if token is add to the url
 if (!params.c) throw "Invalid email verification url provided";
 // validating email
 await client.Register2EmailVerify(params.c);
@@ -107,5 +109,34 @@ await client.AuthDoubleCheckVerify(res2);
 
 ```ts
 await client.Logout();
-// navigate back to the login page
+// Navigate back to the login page
+```
+
+### Passkey invalidation
+
+```ts
+// Removes all passkeys, invalidates all session cookies and logs out
+await AuthDoubleCheck123();
+await AuthPanic();
+
+// Removes current passkey and logs out
+const res1 = await AuthDoubleCheck1Challenge();
+const res2 = await AuthDoubleCheck2Authenticate(res1);
+await AuthDeletePasskey3(res3);
+```
+
+### GDPR Request
+
+```ts
+// Data Request
+await AuthDoubleCheck123();
+await GdprData();
+
+// Data Deletion Request (will delete the account after 30 days)
+await AuthDoubleCheck123();
+await GdprDeleteSet();
+
+// Retract Deletion Request
+await AuthDoubleCheck123();
+await GdprDeleteUnset();
 ```
