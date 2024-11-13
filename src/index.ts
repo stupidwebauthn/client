@@ -29,6 +29,7 @@ export interface GdprData {
 
 export default class PasskeyFdClient {
   public Register1EmailChallenge(email: string) {
+    email = email.trim().toLowerCase();
     return fetch(`/auth/register/email/challenge?email=${email}`, {
       method: "GET",
     }).then(FetchThenEmpty);
@@ -59,6 +60,7 @@ export default class PasskeyFdClient {
   }
 
   public async Login123(email: string) {
+    email = email.trim().toLowerCase();
     const res1 = await this.Login1Challenge(email);
     const res2 = await this.Login2Authenticate(res1);
     await this.Login3Verify(res2);
